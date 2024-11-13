@@ -1,0 +1,131 @@
+<div class="action-wrapper">
+  <!-- ADD PLACE FORM -->
+  <ng-container *ngIf="!pawnValue">
+    <!-- X INPUT -->
+    <div class="input-wrapper">
+      <label>X:</label>
+      <input
+        type="number"
+        name="x"
+        #x="ngModel"
+        [(ngModel)]="pawn.x"
+        max="7"
+        min="0"
+        required
+      >
+      <div *ngIf="x?.errors?.required">X is required</div>
+      <div *ngIf="x?.errors?.min || x?.errors?.max">X should be between 0 to 7</div>
+    </div>
+
+    <!-- Y INPUT -->
+    <div class="input-wrapper">
+      <label>Y:</label>
+      <input
+        type="number"
+        name="y"
+        #y="ngModel"
+        [(ngModel)]="pawn.y"
+        max="7"
+        min="0"
+        required
+      >
+      <div *ngIf="y?.errors?.required">Y is required</div>
+      <div *ngIf="y?.errors?.min || y?.errors?.max">Y should be between 0 to 7</div>
+    </div>
+
+    <!-- DIRECTION SELECT INPUT -->
+    <div class="input-wrapper">
+      <label>Direction:</label>
+      <select
+        [(ngModel)]="pawn.direction"
+        #dir="ngModel"
+        name="direction"
+        required
+      >
+        <option
+          [value]="directions.NORTH"
+          [disabled]="pawn.x === 7"
+        >NORTH</option>
+        <option
+          [value]="directions.SOUTH"
+          [disabled]="pawn.x === 0"
+        >SOUTH</option>
+        <option
+          [value]="directions.WEST"
+          [disabled]="pawn.y === 0"
+        >WEST</option>
+        <option
+          [value]="directions.EAST"
+          [disabled]="pawn.y === 7"
+        >EAST</option>
+      </select>
+      <div *ngIf="dir?.errors?.required">Direction is required</div>
+    </div>
+
+    <!-- COLOR RADIO BUTTONS -->
+    <div class="input-wrapper">
+      <label>Color:</label>
+      <input
+        type="radio"
+        [(ngModel)]="pawn.color"
+        name="pawn-white"
+        [value]="1"
+      >&nbsp;&nbsp;White
+      <input
+        type="radio"
+        [(ngModel)]="pawn.color"
+        name="pawn-black"
+        [value]="2"
+      >&nbsp;&nbsp;Black
+    </div>
+    <ion-button
+      [disabled]="!isValidForm"
+      color="primary"
+      (click)="place()"
+    >Place</ion-button>
+  </ng-container>
+
+  <!-- PAWN ACTIONS -->
+  <ng-container *ngIf="pawnValue">
+    <ion-button
+      color="dark"
+      (click)="left()"
+    >Left</ion-button>
+    <ion-button
+      color="success"
+      (click)="move()"
+    >Move {{logs.length === 1? '1': ''}}</ion-button>
+    <ion-button
+      (click)="move(2)"
+      color="success"
+      *ngIf="logs.length === 1"
+    >Move 2</ion-button>
+    <ion-button
+      color="dark"
+      (click)="right()"
+    >Right</ion-button>
+    <ion-button
+      color="secondary"
+      (click)="report()"
+    >Report</ion-button>
+    <ion-button color="primary" (click)="reset()">Place</ion-button>
+  </ng-container>
+</div>
+<div class="game-wrap">
+  <div
+    class="chess-row"
+    *ngFor="let item of [].constructor(dimension); let i = index"
+  >
+    <ng-container *ngFor="let item of [].constructor(dimension); let j = index">
+      <app-chess-square
+        [x]="i - 7"
+        [y]="j"
+        [pawn]="pawnValue"
+      ></app-chess-square>
+    </ng-container>
+    <!-- <app-chess-square></app-chess-square> -->
+  </div>
+</div>
+<div class="logs-wrapper">
+  <p *ngFor="let log of logs">{{log}}</p>
+</div>

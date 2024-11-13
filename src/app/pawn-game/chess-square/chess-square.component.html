@@ -1,0 +1,23 @@
+<div class="square">
+  <span>{{x}}, {{y}}</span>
+  <ng-container *ngIf="isActive">
+    <img
+      *ngIf="pawn.color === 2"
+      class="pawn black"
+      src="assets/pawn-black.png"
+      alt=""
+    >
+    <img
+      *ngIf="pawn.color === 1"
+      class="pawn white"
+      src="assets/pawn-white.png"
+      alt=""
+    >
+
+    <!-- ARROWS -->
+    <img *ngIf="pawn.direction === 1" class="arrow-img north" src="assets/right-arrow.png">
+    <img *ngIf="pawn.direction === 2" class="arrow-img south" src="assets/right-arrow.png">
+    <img *ngIf="pawn.direction === 4" class="arrow-img east" src="assets/right-arrow.png">
+    <img *ngIf="pawn.direction === 3" class="arrow-img west" src="assets/right-arrow.png">
+  </ng-container>
+</div>
